@@ -1,3 +1,4 @@
+import path from 'path';
 import express from "express";
 import dotenv from "dotenv";
 import { Server } from "socket.io";
@@ -11,17 +12,29 @@ dotenv.config();
 
 const app = express();
 app.use(bodyParser.json());
-const server = http.createServer(app)
+const server = http.createServer(app);
+const clientUrl = process.env.NODE_ENV ==='production' ? process.env.PRO_URL_CLIEN: process.env.DEV_URL_CLIENT
 const io = new Server(server,{
     cors: {
-        origin: "http://localhost:3000"
+        // origin: "http://localhost:3000"
+        origin: clientUrl,
+        credentials: true
       }
 });
 connectDB();  
 
-
-
+app.use(express.json({ limit: "150mb" }));
 app.use('/api/v1/user',userRoute);
+const __dirname = path.resolve()
+
+if(process.env.NODE_ENV ==='production'){
+  app.use(express.static(path.join(__dirname,'frontend/build')));
+  app.get('*',(req,res)=>{
+    res.sendFile(path.resolve(__dirname,'frontend','build','index.html'))
+  })
+}
+
+
 
 export const getIo = ()=>io
 
@@ -103,3 +116,7 @@ server.listen(PORT, () => {
     `app listeing port ${PORT} and running `
   );
 });
+
+// binu4633 mongo username
+// Pt1xHdHpQZ6jXLh8  password
+// mongodb+srv://binu4633:<password>@cluster0.t5ujwqe.mongodb.net/
