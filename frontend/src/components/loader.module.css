@@ -1,0 +1,93 @@
+.wrapper {
+  width: 100%;
+  background-color: #2C5F2D;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.main {
+  width: 50px;
+  height: 50px;
+  /* background-color: chocolate; */
+  position: relative;
+}
+
+.sq1 {
+  width: 50%;
+  height: 50%;
+  /* height:0%; */
+  left: 0;
+  top: 0;
+  /* background-color: blueviolet; */
+  background-color: #B8393D;
+
+  position: absolute;
+  /* border: 2px solid blueviolet; */
+  /* animation: sqAnim1 2s ease-in .2 infinite ; */
+  /* transform: rotate(180deg);
+    transform-origin: bottom; */
+  animation: sqAnim1 2s linear 0s infinite;
+}
+.sq2 {
+  /* width: 100%; */
+  width: 50%;
+  height: 50%;
+  right: 0;
+  bottom: 0;
+  /* border: 2px solid rgb(226, 43, 150); */
+
+  position: absolute;
+  /* transform: scaleX(0); */
+  transform-origin: right;
+  /* background-color: rgb(226, 43, 150); */
+  background-color: rgb(255, 145, 0);
+  /* transition-delay: 4s; */
+  animation: sqAnim2 2s ease-out  infinite ;
+}
+
+@keyframes sqAnim1 {
+  20% {
+    transform: translateX(100%);
+  }
+
+  45% {
+    transform: translateY(100%) translateX(100%);
+  }
+
+  70% {
+  
+    transform: translateY(100%) translateX(-0);
+  }
+}
+@keyframes sqAnim2 {
+    20% {
+      transform: translateX(-100%);
+    }
+  
+    45% {
+      transform: translateY(-100%) translateX(-100%);
+    }
+  
+    70% {
+    
+      transform: translateY(-100%) translateX(0%);
+    }
+  }
+/* @keyframes sqAnim2 {
+ 0%{
+    width:0%;
+ }
+ 100%{
+    width:100%;
+ }
+
+} */
+/* @keyframes sqAnim2 {
+    50%{
+        transform: scaleX(0);
+    }
+    100%{
+        transform: scaleX(1);
+    }
+
+} */

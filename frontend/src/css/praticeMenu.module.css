@@ -1,0 +1,91 @@
+.wrapper{
+    /* background-color: gray; */
+    background-color: #2C5F2D;
+    width: 100%;
+    min-height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    
+}
+.card{
+    text-align: center;
+}
+.card>p{
+    font-size: 5rem;
+    color: rgba(255, 255, 255, .7);
+}
+.btn_block{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+.btn{
+    width: 15rem;
+    font-size: 4rem;
+    margin: 1rem;
+    border: none;
+    background-color: orangered;
+    border-radius: 50px;
+    color: rgba(255, 255, 255, .7);
+}
+
+.back_btn{
+    background-color: transparent;
+    border: none
+}
+
+.arrow_block{
+    position: relative;
+    background-color: red;
+    width:12rem ;
+}
+
+.arrow1{
+    position: absolute;
+    top: 0;
+    left: 0;
+    background-color: transparent;
+    width: 3rem;
+    height: 3rem;
+    border-top: 30px solid transparent;
+    border-bottom: 30px solid transparent;
+    border-right: 30px solid rgba(151, 188, 98,1);
+    
+}
+.arrow2{
+    position: absolute;
+    top: 0;
+    left: 2rem;
+    background-color: transparent;
+    width: 3rem;
+    height: 3rem;
+    border-top: 30px solid transparent;
+    border-bottom: 30px solid transparent;
+    border-right: 30px solid white;
+    
+}
+.arrow3{
+    position: absolute;
+    top: 0;
+    left: 4rem;
+    background-color: transparent;
+    width: 3rem;
+    height: 3rem;
+    border-top: 30px solid transparent;
+    border-bottom: 30px solid transparent;
+    border-right: 30px solid rgba(151, 188, 98,1);
+    
+}
+.arrow4{
+    position: absolute;
+    top: 0;
+    left: 6rem;
+    background-color: transparent;
+    width: 3rem;
+    height: 3rem;
+    border-top: 30px solid transparent;
+    border-bottom: 30px solid transparent;
+    border-right: 30px solid white;
+    
+}
