@@ -8,9 +8,10 @@ import {Provider} from 'react-redux'
 import {store} from './redux/store';
 import { GoogleOAuthProvider } from "@moeindana/google-oauth";
 const root = ReactDOM.createRoot(document.getElementById('root'));
-console.log('id', process.env.NODE_ENV === "production"
-? process.env.REACT_APP_GOOGLE_CLIENT_PRODUCTION
-: process.env.REACT_APP_GOOGLE_CLIENT_DEVELOPMENT)
+// console.log('id', process.env.NODE_ENV === "production"
+// ? process.env.REACT_APP_GOOGLE_CLIENT_PRODUCTION
+// : process.env.REACT_APP_GOOGLE_CLIENT_DEVELOPMENT)
+console.log('id', process.env.GOOGLE_CLIENT)
 root.render(
   <React.StrictMode>
  
