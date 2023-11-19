@@ -7,7 +7,7 @@ const connectDB = async()=>{
      let uri ;
      
      if(process.env.NODE_ENV === 'production'){
-        console.log('does development workkssss')
+        // console.log('does development workkssss')
         uri = await process.env.MONGO_URI2
      }else{
         uri = await process.env.MONGO_URI
