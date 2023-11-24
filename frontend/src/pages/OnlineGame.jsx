@@ -76,7 +76,9 @@ function OnlineGame() {
       console.log('isplaying', isPlaying)
       console.log('this are u playing area workssss')
       // callback({isPlaying})
-      callback({isPlaying})
+      callback({
+        name:user.name,
+        isPlaying})
     }
     socket.on('areUplaying',areUplaying);
     return ()=>{

@@ -4,7 +4,7 @@ import { useNavigate, useParams } from "react-router-dom";
 import classess from "../css/myRoom.module.css";
 import { socket } from "../socket";
 import { getTheRoom } from "../redux/userSlice";
-import {addSnaps,addPlayers} from '../redux/onlineGameReducer';
+import {addSnaps,addPlayers,isPlayingOff} from '../redux/onlineGameReducer';
 import VoiceRoom from "../components/VoiceRoom";
 import Loader from "../components/Loader";
 function MyRoom() {
@@ -28,6 +28,7 @@ function MyRoom() {
       navigate("/onlineRoomsGroups");
     }
     dispatch(getTheRoom(id));
+    dispatch(isPlayingOff())
     //  if(!room){
     //     navigate('/onlineRoomsGroups')
     //  }
@@ -83,7 +84,9 @@ function MyRoom() {
       // callback({isPlaying})
       
       // callback({isPlaying:isPl})
-      callback({isPlaying})
+      callback({
+        name:user.name,
+        isPlaying})
     }
     socket.on("connectedRoom",connectRoom );
     socket.on('letsStart',letsStart)
