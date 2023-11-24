@@ -27,8 +27,8 @@ const clientUrl =
 console.log("client url", clientUrl);
 const io = new Server(server, {
   cors: {
-    origin: "http://localhost:3000",
-    // origin: clientUrl,
+    // origin: "http://localhost:3000",
+    origin: clientUrl,
     credentials: true,
   },
 });

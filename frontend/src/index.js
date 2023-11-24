@@ -16,10 +16,10 @@ root.render(
   <React.StrictMode>
  
     <BrowserRouter>
-    <GoogleOAuthProvider  clientId={ process.env.NODE_ENV === "production"
+    {/* <GoogleOAuthProvider  clientId={ process.env.NODE_ENV === "production"
             ? process.env.REACT_APP_GOOGLE_CLIENT_PRODUCTION
-            : process.env.REACT_APP_GOOGLE_CLIENT_DEVELOPMENT}>
-    {/* <GoogleOAuthProvider  clientId={ process.env.REACT_APP_GOOGLE_CLIENT_PRODUCTION}> */}
+            : process.env.REACT_APP_GOOGLE_CLIENT_DEVELOPMENT}> */}
+    <GoogleOAuthProvider  clientId={ process.env.REACT_APP_GOOGLE_CLIENT_PRODUCTION}>
     <Provider store={store}>
        <App />
     </Provider>
@@ -28,6 +28,11 @@ root.render(
  
   </React.StrictMode>
 );
+
+// change three thingsss 
+// index js process.env.REACT_APP_GOOGLE_CLIENT_PRODUCTION
+// server js origin: "http://localhost:3000",
+// socket js frontend const   URL=   'http://localhost:5000'
 
 // If you want to start measuring performance in your app, pass a function
 // to log results (for example: reportWebVitals(console.log))
