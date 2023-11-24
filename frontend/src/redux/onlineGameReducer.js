@@ -20,13 +20,20 @@ const initialState = {
   moveNumber: 0,
   filledBlockArray: [],
   disconnectMembers:null,
-  disconnectWindow:false
+  disconnectWindow:false,
+  isPlaying:false
 };
 
 const onlineGameSlice = createSlice({
   name: "onlineGame",
   initialState,
   reducers: {
+    isPlayingOn:(state,action)=>{
+      state.isPlaying = true
+    },
+    isPlayingOff:(state,action)=>{
+      state.isPlaying = false
+    },
     addBlockNums:(state,action)=>{
        const {row,col,size,circleSize} = action.payload;
 
@@ -356,7 +363,9 @@ export const {
   disconnectOpen,
   addDisconnectMembers,
   deleteDisconnectMembers,
-  continueGame
+  continueGame,
+  isPlayingOn,
+  isPlayingOff
 } = onlineGameSlice.actions;
 
 export default onlineGameSlice.reducer;

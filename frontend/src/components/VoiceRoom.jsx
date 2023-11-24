@@ -18,14 +18,14 @@ function VoiceRoom() {
   
     const newId = uuid()
     const peer = new Peer(newId);
-    console.log('peeer', peer)
+    // console.log('peeer', peer)
     setMyPeer(peer)
   },[])
 
   useEffect(()=>{
     const roomId = room?room._id :null;
     if(myPeer){
-      console.log(myPeer)
+      // console.log(myPeer)
        socket.emit('peerEmit', {
       peerId : myPeer._id,
       roomId
@@ -53,7 +53,7 @@ function VoiceRoom() {
      
     })
    } catch (error) {
-    console.log(error)
+    // console.log(error)
    }
   },[])
 
@@ -63,7 +63,7 @@ function VoiceRoom() {
    
    if(call){
       call.on('stream',(rStream)=>{
-        console.log('does i recieve stream',rStream)
+        // console.log('does i recieve stream',rStream)
         setRemoteStream(rStream)
       })
    }

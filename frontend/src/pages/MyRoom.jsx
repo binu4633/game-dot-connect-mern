@@ -16,10 +16,12 @@ function MyRoom() {
   const user = useSelector((state) => state.user.userInfo);
   const snapShot = useSelector(state=>state.onlineGameStore.roomSnap);
   const status1 = useSelector(state=>state.user.status)
-  const status2 = useSelector(state=>state.onlineGameStore.status)
+  const status2 = useSelector(state=>state.onlineGameStore.status);
+  const isPlaying = useSelector(state=> state.onlineGameStore.isPlaying)
   const [membersSnap, setMemberSnap] = useState([]);
   const [players,setPlayers] = useState(null);
   const [playesName,setPlayersName] = useState('')
+  const [gameLoading,setGameLoading] = useState(false)
 
   useEffect(() => {
     if (!id) {
@@ -56,7 +58,7 @@ function MyRoom() {
   },[])
 
   useEffect(()=>{
-    socket.on("connectedRoom", (snap) => {
+    const connectRoom = (snap) => {
      
       if (snap && snap.members.length > 0) {
     
@@ -64,30 +66,57 @@ function MyRoom() {
         const members = snap.members.map((m) => m.name);
         setMemberSnap(members);
       }
-    });
-    socket.on('letsStart',(snap)=>{
+    }
+    const letsStart = (snap)=>{
       dispatch(addSnaps(snap));
-      dispatch(addPlayers(snap))
+      dispatch(addPlayers(snap));
+      setGameLoading(false)
       navigate("/onlineGame");
-    })
-    socket.on('playing',(p)=>{
+    }
+    const playing = (p)=>{
       console.log('playing p ', p)
       setPlayers(p)
-    })
+    }
+    const areUplaying = (data,callback) =>{
+      console.log('isplaying', isPlaying)
+      console.log('this are u playing area workssss')
+      // callback({isPlaying})
+      
+      // callback({isPlaying:isPl})
+      callback({isPlaying})
+    }
+    socket.on("connectedRoom",connectRoom );
+    socket.on('letsStart',letsStart)
+    socket.on('playing',playing)
+    socket.on('areUplaying',areUplaying);
 
-  })
+    return ()=>{
+      socket.off("connectedRoom",connectRoom );
+      socket.off('letsStart',letsStart)
+      socket.off('playing',playing)
+      socket.off('areUplaying',areUplaying);
+    }
+
+  },[])
+
+  
+  
+
 
   useEffect(()=>{
     if(players && players.length >0){
-      const namesArray = players.map(p=>p.name);
-      const names = namesArray.join(' & ');
+      console.log('playessss', players)
+      // const namesArray = players.map(p=>p.name);
+      const names = players.join(' & ');
+      console.log('nameesss', names)
       setPlayersName(names)
     }
   },[players])
 
   // console.log('players', players)
    const gameOnHandler = ()=>{
-    setPlayers(null)
+    setPlayers(null);
+    setGameLoading(true)
     socket.emit('gameStart',{roomName:id,snapShot})
     // navigate("/onlineGame");
    }
@@ -122,6 +151,7 @@ function MyRoom() {
         membersSnap.length >1 &&
         <button className={ classess.btn_go} onClick={gameOnHandler}>Lets go...</button>
        }
+        {gameLoading && <Loader />}
         <div className={classess.back_block}>
                     <button className={classess.back_btn} onClick={backHandler}>
                         <div className={classess.arrow_block}>

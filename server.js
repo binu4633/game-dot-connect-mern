@@ -6,17 +6,18 @@ import bodyParser from 'body-parser'
 import http from 'http';
 import connectDB from "./backend/db/db.js";
 import  userRoute from './backend/routes/userRoutes.js';
-import {addToRoom, removeFromRoom,addMembersToRoom,addToGround,isPlaying,removeFromGround } from './backend/utils/room.js'
+import {addToRoom, removeFromRoom,addMembersToRoom,addToGround,isPlaying,removeFromGround ,getMembers} from './backend/utils/room.js'
 dotenv.config();
 
 
 const app = express();
 app.use(bodyParser.json());
 const server = http.createServer(app);
-const clientUrl = process.env.NODE_ENV ==='production' ? process.env.PRO_URL_CLIEN: process.env.DEV_URL_CLIENT
+const clientUrl = process.env.NODE_ENV ==='production' ? process.env.PRO_URL_CLIENT: process.env.DEV_URL_CLIENT
+console.log('client url', clientUrl)
 const io = new Server(server,{
     cors: {
-        // origin: "http://localhost:3000"
+        // origin: "http://localhost:3000",
         origin: clientUrl,
         credentials: true
       }
@@ -67,15 +68,61 @@ io.on('connection',(socket)=>{
     });
 
     socket.on('gameStart',(obj)=>{
-     
-      const playing = isPlaying(obj.snapShot);
-      if(playing.playing){
+       console.log('obj game start', obj);
+       const roomName = obj.roomName;
+       const snapShot = obj.snapShot
+       const members = getMembers(obj.roomName);
+       console.log('memebetsss', members);
+       if(!members) return;
+
+          // socket.to(members[0].id).timeout(5000).emit('areUplaying','data',(err,res)=>{
+          //   if(err)console.log('erroroooor',  err)
+          //    console.log(members[0].id, res)
+          //  })
+          // socket.to(members[1].id).timeout(5000).emit('areUplaying','data',(res)=>{
+          // console.log(members[1].id, res)
+          //  })
+
+          
+          members.map((m,i)=>{
+              io.to(m.id).timeout(5000).emit('areUplaying','data',(err,res)=>{
+                  if(err)console.log('erroroooor',  err)
+                  console.log(m.id, res)
+                  // .timeout(1000)
+                  if(!err){
+                    members[i] = {...members[i],...res[0]}
+                  }
+                })
+        
+               })
+            
+         
+         
+            
+    //  const mapPromise = async()=> await Promise.all(mapResult)
+
+  
+       setTimeout(()=>{
+        console.log('mme', members)
+      const memFilter=  members.filter(m=>m.isPlaying === true);
+      console.log('mem filter', memFilter)
+         if(memFilter.length === 0){
+            io.to(roomName).emit('letsStart', snapShot);
+         }else{
+            const players = memFilter.map(m=>m.name);
+            console.log('players', players)
+            io.to(roomName).emit('playing', players);
+         }
+       },1000)
+      //  io.to(obj.roomName).emit('isPlaying', Date.now());
+      // const playing = isPlaying(obj.snapShot);
+      // if(playing.playing){
     
-        io.to(obj.roomName).emit('playing', playing.players);
-      }else{
-        addToGround(obj.snapShot)
-        io.to(obj.roomName).emit('letsStart', obj.snapShot);
-      }
+      //   io.to(obj.roomName).emit('playing', playing.players);
+      // }else{
+      //   addToGround(obj.snapShot)
+      //   io.to(obj.roomName).emit('letsStart', obj.snapShot);
+      // }
    
     })
 
@@ -89,9 +136,9 @@ io.on('connection',(socket)=>{
     })
 
     socket.on('finishGame', ()=>{
-     const groundRoom =   removeFromGround(socket.id);
+    //  const groundRoom =   removeFromGround(socket.id);
      
-     io.to(groundRoom.room).emit('playing', groundRoom.members);
+    //  io.to(groundRoom.room).emit('playing', groundRoom.members);
     })
 
     socket.on('peerEmit',(obj)=>{

@@ -1,7 +1,7 @@
 import React,{useEffect,useState} from 'react';
 import {useNavigate} from 'react-router-dom';
 import {useSelector,useDispatch} from 'react-redux';
-import {restartGame} from '../redux/onlineGameReducer'
+import {restartGame,isPlayingOff} from '../redux/onlineGameReducer'
 import classess from './result.module.css'
 import Canvas from './Canvas';
 import { socket } from '../socket';
@@ -32,6 +32,7 @@ function Result() {
    
     // navigate(`/myRoom/${room._id}`)
     socket.emit('finishGame')
+    dispatch(isPlayingOff())
     if(room ){
      
       navigate(`/myRoom/${room._id}`)

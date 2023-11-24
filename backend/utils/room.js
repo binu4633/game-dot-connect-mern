@@ -2,7 +2,7 @@ const roomArray = [];
 const membersArray = [];
 const ground = [];
 const addToRoom = (id, roomName) => {
-  console.log('rooma rray',roomArray)
+ 
   const idIndex = roomArray.findIndex(r=>r.id === id);
   if(idIndex === -1){
     roomArray.push({ id, roomName });
@@ -33,11 +33,18 @@ const addMembersToRoom = (socketId, roomName, memberName) => {
         }
       }
     });
-    console.log('member array',membersArray)
+    // console.log('member array',membersArray)
     return membersArray.find(ar=>ar.room === roomName)
   }
 
 };
+
+const getMembers = (roomName)=>{
+  const room = membersArray.find((r) => r.room === roomName);
+  if(!room) return null
+
+  return room.members
+}
 
 const removeFromRoom = (id) => {
   const index = roomArray.findIndex((r) => r.id === id);
@@ -62,14 +69,12 @@ const removeFromRoom = (id) => {
     });
  
     const foundOne =  membersArray.find(ar=>ar.room === roomName);
-    console.log('found', foundOne)
+    
     if(foundOne && foundOne.members.length === 0){
      const inde =   membersArray.findIndex(m=>m.room === foundOne.room)
      membersArray.splice(inde,1)
     }
-    console.log('members array remove', membersArray);
-    console.log('room remove', roomArray);
-    console.log('ground remve', ground)
+ 
     return foundOne
   }
 };
@@ -84,13 +89,13 @@ const addToGround = (snap) => {
   } else {
     ground[isGround].members = snap.members;
   }
-  console.log('ground array', ground)
+ 
 };
 
 const isPlaying = (snap)=>{
     const room = snap.room;
     const isGround = ground.findIndex((a) => a.room === room);
-    console.log('is ground', isGround)
+   
     if(isGround === -1){
         return {playing:false}
     }else{
@@ -118,7 +123,7 @@ const removeFromGround = (id)=>{
         
       }
     });
-   console.log('ground',ground)
+ 
    const groundRoom =  ground.find(ar=>ar.room === roomName);
     return groundRoom
 
@@ -127,4 +132,4 @@ const removeFromGround = (id)=>{
 
 
 
-export { addToRoom, removeFromRoom,addMembersToRoom,addToGround,isPlaying,removeFromGround };
+export { addToRoom, removeFromRoom,addMembersToRoom,addToGround,isPlaying,removeFromGround,getMembers };

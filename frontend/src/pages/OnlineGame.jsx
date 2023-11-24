@@ -9,7 +9,9 @@ import {
   updateBlocks,
   updateCircle,
   disconnectOpen,
-  addDisconnectMembers
+  addDisconnectMembers,
+  isPlayingOn,
+  isPlayingOff
 } from "../redux/onlineGameReducer";
 import {
   possibleConnection,
@@ -45,7 +47,7 @@ function OnlineGame() {
   const moveNumber = useSelector((state) => state.onlineGameStore.moveNumber);
   const user = useSelector((state) => state.user.userInfo);
   const disconnectWindow =useSelector((state) => state.onlineGameStore.disconnectWindow);
-
+  const isPlaying = useSelector(state=> state.onlineGameStore.isPlaying)
  
   const [prevMove, setPreMove] = useState([]);
   const [dots, setDots] = useState([]);
@@ -55,16 +57,32 @@ function OnlineGame() {
   useEffect(() => {
     if (!snaps || !users ) {
       navigate("/onlineRoomsGroups");
-      socket.emit('leaveRoom')
+      socket.emit('leaveRoom');
+      dispatch(isPlayingOff())
     }
-    dispatch(addBlockNums({row:7,col:5,size:winSize/6,circleSize:10 }))
+    dispatch(addBlockNums({row:0,col:0,size:winSize/6,circleSize:20 }))
    
   }, []);
 
   useEffect(()=>{
     dispatch(createBlocks());
     dispatch(createCircle());
+    dispatch(isPlayingOn())
   },[maxSqCol,maxSqRow,boxSize,circleSize])
+
+
+  useEffect(()=>{
+    const areUplaying = (data, callback) =>{
+      console.log('isplaying', isPlaying)
+      console.log('this are u playing area workssss')
+      // callback({isPlaying})
+      callback({isPlaying})
+    }
+    socket.on('areUplaying',areUplaying);
+    return ()=>{
+      socket.off('areUplaying',areUplaying);
+    }
+  },[isPlaying])
 
   // useEffect(() => {
   //   if (user2.active) {

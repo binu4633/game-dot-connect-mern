@@ -2,7 +2,7 @@ import React,{useEffect,useState} from 'react';
 import ReactDOM from 'react-dom';
 import {useSelector,useDispatch} from 'react-redux';
 import {useNavigate} from 'react-router-dom';
-import {continueGame,deleteDisconnectMembers,disconnectClose} from '../redux/onlineGameReducer'
+import {continueGame,deleteDisconnectMembers,disconnectClose,isPlayingOff} from '../redux/onlineGameReducer'
 import classes from './modal.module.css';
 import {socket} from '../socket'
 const BackDrops= ()=>{
@@ -40,6 +40,7 @@ const BackDrops= ()=>{
 
   const closeWithHandler = ()=>{
     socket.emit('leaveRoom');
+    dispatch(isPlayingOff())
     dispatch(deleteDisconnectMembers())
     navigate('/onlineRoomsGroups')
   }
