@@ -17,7 +17,12 @@ function VoiceRoom() {
     
   
     const newId = uuid()
-    const peer = new Peer(newId);
+    const peer = new Peer(newId,{
+      host:'dotandsquare.onrender.com',
+      port:443,
+      secure:true,
+      path:'/peerjs'
+    });
     // console.log('peeer', peer)
     setMyPeer(peer)
   },[])

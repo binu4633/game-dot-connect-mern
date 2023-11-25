@@ -4,6 +4,7 @@ import dotenv from "dotenv";
 import { Server } from "socket.io";
 import bodyParser from "body-parser";
 import http from "http";
+import { ExpressPeerServer } from "peer";
 import connectDB from "./backend/db/db.js";
 import userRoute from "./backend/routes/userRoutes.js";
 import {
@@ -33,6 +34,12 @@ const io = new Server(server, {
   },
 });
 connectDB();
+
+const peerServer = ExpressPeerServer(server, {
+	path: "/peerjs",
+});
+
+app.use("/", peerServer);
 
 app.use(express.json({ limit: "150mb" }));
 app.use("/api/v1/user", userRoute);
