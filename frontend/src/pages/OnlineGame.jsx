@@ -60,7 +60,7 @@ function OnlineGame() {
       socket.emit('leaveRoom');
       dispatch(isPlayingOff())
     }
-    dispatch(addBlockNums({row:0,col:0,size:winSize/6,circleSize:20 }))
+    dispatch(addBlockNums({row:7,col:5,size:winSize/6,circleSize:15 }))
    
   }, []);
 

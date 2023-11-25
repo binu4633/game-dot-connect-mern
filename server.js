@@ -35,11 +35,11 @@ const io = new Server(server, {
 });
 connectDB();
 
-const peerServer = ExpressPeerServer(server, {
-	path: "/peerjs",
-});
+// const peerServer = ExpressPeerServer(server, {
+// 	path: "/peerjs",
+// });
 
-app.use("/", peerServer);
+// app.use("/", peerServer);
 
 app.use(express.json({ limit: "150mb" }));
 app.use("/api/v1/user", userRoute);
